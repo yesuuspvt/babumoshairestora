@@ -1,0 +1,7 @@
+1) left filter width 20% hobe --- done
+2) order page admin heder menu right e hobe --- done
+3) cart item er list orders page ei show korte hobe and item manage er links rakhte hobe. product item per row te 2 to kore asbe. --- done
+4) logo ta side bar er centr e hobe
+5) Prin bill in "edit kot final order" page chanag to "Generate Bill" ---- done
+6) Order type => Percel / Table. -- done
+7) Bill er Product name text dorkar nei. -- 
