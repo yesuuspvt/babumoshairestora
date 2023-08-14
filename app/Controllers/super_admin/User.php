@@ -34,37 +34,40 @@ class User extends BaseController
         $UserModel = model(UserModel::class);
         $session = session();
         if($this->request->getMethod() === 'post' && $this->validate([
-            'restaurant_id' => 'required',
+            // 'restaurant_id' => 'required',
             'full_name' => 'required',
             'address'  => 'required',
             'mobile'  => 'required|min_length[10]|regex_match[/^[0-9]{10}$/]',
-            'email'    => 'required|valid_email',
+            // 'email'    => 'required|valid_email',
             'gender'    => 'required',
+            'shift'    => 'required',
             'username' => 'required',
             'role'=>'required',
             'password' => 'required'
         ]))
         {
-            $restaurant_id = $this->request->getPost('restaurant_id');
+            // $restaurant_id = $this->request->getPost('restaurant_id');
             $full_name = $this->request->getPost('full_name');
             $address = $this->request->getPost('address');
             $mobile = $this->request->getPost('mobile');
-            $email = $this->request->getPost('email');
+            // $email = $this->request->getPost('email');
             $gender = $this->request->getPost('gender');
             $username = $this->request->getPost('username');
             $role = $this->request->getPost('role');
+            $shift = $this->request->getPost('shift');
             $password = password_hash($this->request->getPost('password'), PASSWORD_DEFAULT);
             $id = $this->request->getPost('id');
             $data = array();
             if($id>0)
             {
                 $data = [
-                    'restaurant_id' => $restaurant_id,
+                    // 'restaurant_id' => $restaurant_id,
                     'full_name' => $full_name,
                     'address'    => $address,
                     'mobile'    => $mobile,
-                    'email'    => $email,
+                    // 'email'    => $email,
                     'role'    => $role,
+                    'shift'    => $shift,
                     'gender'    => $gender,
                     'username' => $username,
                     'modified_at'    => date('Y-m-d H:i:s'),
@@ -73,18 +76,21 @@ class User extends BaseController
             }
             else{
                 $data = [
-                    'restaurant_id' => $restaurant_id,
+                    // 'restaurant_id' => $restaurant_id,
                     'full_name' => $full_name,
                     'address'    => $address,
                     'mobile'    => $mobile,
-                    'email'    => $email,
+                    // 'email'    => $email,
                     'role'    => $role,
+                    'shift'    => $shift,
                     'gender'    => $gender,
                     'username' => $username,
                     'password' => $password,
                     'created_at'    => date('Y-m-d H:i:s'),
                     'modified_at'    => date('Y-m-d H:i:s'),
                 ];
+                // print_r($data);exit;
+                
             }
             
             if($id>0)
@@ -137,7 +143,9 @@ class User extends BaseController
         $session = session();
         if($id>0)
         {
-            if($UserModel->delete($id))
+            $data = array();
+            $data['is_active'] = 0;
+            if($UserModel->update($id, $data))
             {
                 $session->setFlashdata('success', 'Record deleted successfully');
                 return redirect()->to('super-admin-user-list');

@@ -14,6 +14,7 @@ class UserModel extends Model{
         'address',
         'mobile',
         'email',
+        'shift',
         'gender',
         'is_active',
         'created_at',
