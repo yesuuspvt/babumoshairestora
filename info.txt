@@ -1,0 +1,5 @@
+composer require codeigniter4/framework
+,
+    "config":{
+        "vendor-dir": "third_party/vendor"
+    }
