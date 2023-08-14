@@ -6,10 +6,10 @@ class ProductModel extends Model{
     protected $table = 'products';
     
     protected $allowedFields = [
-        'restaurant_id',
+        'unit',
         'category_id',
         'name',
-        'description',
+        'gst',
         'price',
         'is_available',
         'created_at',

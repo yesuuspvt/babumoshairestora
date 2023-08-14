@@ -47,11 +47,11 @@ class Product extends BaseController
             {
                 $temp = array();
                 $temp['id'] = $pd['id'];
-                $temp['restaurant_id'] = $pd['restaurant_id'];
+                $temp['unit'] = $pd['unit'];
                 $temp['category_id'] = $pd['category_id'];
                 $temp['name'] = $pd['name'];
                 $temp['price'] = $pd['price'];
-                $temp['description'] = $pd['description'];
+                $temp['gst'] = $pd['gst'];
                 $temp['is_available'] = $pd['is_available'];
                 $temp['created_at'] = $pd['created_at'];
                 $temp['images'] = array();
@@ -105,17 +105,17 @@ class Product extends BaseController
         }
         $session = session();
         if($this->request->getMethod() === 'post' && $this->validate([
-            'restaurant_id' => 'required',
+            'unit' => 'required',
             'name' => 'required',
-            'description' => 'required',
+            'gst' => 'required',
             'category_id' => 'required',
             'price' => 'required',
         ]))
         {
             $id = $this->request->getPost('id');
-            $restaurant_id = $this->request->getPost('restaurant_id');
+            $unit = $this->request->getPost('unit');
             $name = $this->request->getPost('name');
-            $description = $this->request->getPost('description');
+            $gst = $this->request->getPost('gst');
             $category_id = $this->request->getPost('category_id');
             $price = $this->request->getPost('price');
             //echo "validation"; exit;
@@ -124,9 +124,9 @@ class Product extends BaseController
             if($id>0)
             {
                 $data = [
-                    'restaurant_id' => $restaurant_id,
+                    'unit' => $unit,
                     'name' => $name,
-                    'description'    => $description,
+                    'gst'    => $gst,
                     'category_id'    => $category_id,
                     'price'    => $price,
                     'modified_at'    => date('Y-m-d H:i:s'),
@@ -139,9 +139,9 @@ class Product extends BaseController
             }
             else{
                 $data = [
-                    'restaurant_id' => $restaurant_id,
+                    'unit' => $unit,
                     'name' => $name,
-                    'description'    => $description,
+                    'gst'    => $gst,
                     'category_id'    => $category_id,
                     'price'    => $price,
                     'is_available'    => 1,
@@ -198,6 +198,7 @@ class Product extends BaseController
                             $newName = $file->getRandomName();
                             if($file->move(WRITEPATH . 'uploads/product_image',$newName))
                             {
+                                echo WRITEPATH;exit;
                                 $productimageModel = model(ProductimageModel::class);
                                 $ProductImageData = [
                                     'product_id' =>  $insertORUpdateRecordId,
@@ -231,7 +232,7 @@ class Product extends BaseController
                 }
             }
             else{
-                $session->setFlashdata('error', 'Product not saved successfully Or Exists');
+                $session->setFlashdata('error', 'Item not saved successfully Or Exists');
                 return redirect()->to('super-admin-product-list');
             }
         }
