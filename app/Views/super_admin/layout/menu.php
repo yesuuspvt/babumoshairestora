@@ -58,11 +58,11 @@
                 </li>
                 <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
                         <i class="flaticon-381-networking"></i>
-                        <span class="nav-text">Manage Product</span>
+                        <span class="nav-text">Manage Item</span>
                     </a>
                     <ul aria-expanded="false">
-                        <li><a href="<?php echo site_url(); ?>categories-list">Product Category</a></li>
-                        <li><a href="<?php echo site_url(); ?>super-admin-product-list">Product List</a></li>
+                        <li><a href="<?php echo site_url(); ?>categories-list">Item Category</a></li>
+                        <li><a href="<?php echo site_url(); ?>super-admin-product-list">Item List</a></li>
                     </ul>
                 </li>
                 <li>

@@ -14,8 +14,8 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title">Product Management</h4>
-                    <a href="<?php echo site_url(); ?>super_admin/Product/productManagement">+ New Product</a>
+                    <h4 class="card-title">Item Management</h4>
+                    <a href="<?php echo site_url(); ?>super_admin/Product/productManagement">+ New Item</a>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -26,7 +26,9 @@
                                     <!-- <th>Cafe Name</th> -->
                                     <th>Category</th>
                                     <th>Name</th>
+                                    <th>Unit</th>
                                     <th>Price</th>
+                                    <th>GST %</th>
                                     <!-- <th>Description</th> -->
                                     <th>Images</th>
                                     <th>Created At</th>
@@ -46,7 +48,9 @@
                                             <!-- <td><?php //echo $restaurant_list[$pl['restaurant_id']]; ?></td> -->
                                             <td><?php echo $product_category[$pl['category_id']]; ?></td>
                                             <td><?php echo $pl['name']; ?></td>
+                                            <td><?php echo $pl['unit']; ?></td>
                                             <td><?php echo $pl['price']; ?></td>
+                                            <td><?php echo $pl['gst']; ?></td>
                                             <!-- <td><?php //echo $pl['description']; ?></td> -->
                                             <!-- <td><img src="<?php //echo site_url().'writable/uploads/restaurant_image/'.$rl['image']; ?>" width="60" height="60" /></td>
                                             <td><?php //echo $rl['status']; ?></td> -->

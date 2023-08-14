@@ -30,7 +30,7 @@ class Auth extends BaseController
                 $pass = $data['password'];
                 $authenticatePassword = password_verify($password, $pass);
                 if($authenticatePassword){
-                    if($data['is_active'] == 1 && ($data['role'] == 'Super_Admin' || $data['role'] == 'Admin'))
+                    if($data['is_active'] == 1 && ($data['role'] == 'Super_Admin' || $data['role'] == 'User'))
                     {
                         $ses_data = [
                             'id' => $data['id'],

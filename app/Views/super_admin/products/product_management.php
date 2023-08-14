@@ -14,7 +14,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title"><?php echo !empty($id) && $id > 0 ? 'Update' : 'New'; ?> Product</h4>
+                    <h4 class="card-title"><?php echo !empty($id) && $id > 0 ? 'Update' : 'New'; ?> Item</h4>
                 </div>
                 <?php $validationErrors = service('validation')->getErrors();?>
                 <div class="card-body">
@@ -30,7 +30,7 @@
                                 <input type="hidden" name="id" value="<?php echo $id; ?>">
                             <?php } ?>
                             <div class="mb-3">
-                                <select name="category_id" class="default-select  form-control wide" title="Product Category" require>
+                                <select name="category_id" class="default-select  form-control wide" title="Item Category" require>
                                     <?php
                                     foreach($product_category as $pckey=>$pcvalue){
                                     ?>
@@ -39,30 +39,25 @@
                                 </select>
                                 <span style="color:red;"><?php echo !empty($validationErrors['category_id']) ? $validationErrors['category_id'] : ''; ?></span>
                             </div>
+                            
                             <div class="mb-3">
-                                <select name="restaurant_id" class="default-select  form-control wide" title="Restaurant" require>
-                                    <?php
-                                    foreach($restaurant_list as $rlkey=>$rlvalue){
-                                    ?>
-                                        <option value="<?= $rlkey; ?>" <?php echo !empty($product_list) && $product_list['restaurant_id']==$rlkey?'selected':'';?>><?= $rlvalue; ?></option>
-                                    <?php } ?>
-                                </select>
-                                <span style="color:red;"><?php echo !empty($validationErrors['restaurant_id']) ? $validationErrors['restaurant_id'] : ''; ?></span>
-                            </div>
-                            <div class="mb-3">
-                                <input type="text" name="name" class="form-control input-default " placeholder="Product Name" value="<?php echo !empty($product_list)?$product_list['name']:'';?>" require>
+                                <input type="text" name="name" class="form-control input-default " placeholder="Item Name" value="<?php echo !empty($product_list)?$product_list['name']:'';?>" require>
                                 <span style="color:red;"><?php echo !empty($validationErrors['name']) ? $validationErrors['name'] : ''; ?></span>
                             </div>
                             <div class="mb-3">
-                                <input type="text" name="price" class="form-control input-default " placeholder="Product Price" value="<?php echo !empty($product_list)?$product_list['price']:'';?>" require>
+                                <input type="text" name="unit" class="form-control input-default " placeholder="Item Unit" value="<?php echo !empty($product_list)?$product_list['unit']:'';?>" require>
+                                <span style="color:red;"><?php echo !empty($validationErrors['unit']) ? $validationErrors['unit'] : ''; ?></span>
+                            </div>
+                            <div class="mb-3">
+                                <input type="text" name="price" class="form-control input-default " placeholder="Item Unit Price/Rate" value="<?php echo !empty($product_list)?$product_list['price']:'';?>" require>
                                 <span style="color:red;"><?php echo !empty($validationErrors['price']) ? $validationErrors['price'] : ''; ?></span>
                             </div>
                             <div class="mb-3">
-                                <textarea class="form-control" name="description" rows="4" id="comment" placeholder="Description" require><?php echo !empty($product_list)?$product_list['description']:'';?></textarea>
-                                <span style="color:red;"><?php echo !empty($validationErrors['description']) ? $validationErrors['description'] : ''; ?></span>
+                                <input type="text" name="gst" class="form-control input-default " placeholder="GST %" value="<?php echo !empty($product_list)?$product_list['gst']:'';?>" require>
+                                <span style="color:red;"><?php echo !empty($validationErrors['gst']) ? $validationErrors['gst'] : ''; ?></span>
                             </div>
                             <div class="mb-3">
-                                <input type="file" name="images[]" multiple="" class="form-control input-default " placeholder="Upload Product Image" <?php echo $id > 0 ? '' : 'require'; ?>>
+                                <input type="file" name="images[]" multiple="" class="form-control input-default " placeholder="Upload Item Image" <?php echo $id > 0 ? '' : 'require'; ?>>
                                 <span style="color:red;"><?php echo !empty($validationErrors['image']) ? $validationErrors['image'] : ''; ?></span>
                             </div>
                             <div class="mb-3">
