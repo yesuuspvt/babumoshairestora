@@ -55,12 +55,14 @@
                                                     <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" <?php //echo $ul['is_active']==1 ? 'checked' : '' ;?> onchange="updateStatus(this, '<?php echo $ul['id']; ?>')" />
                                                 </div>
                                             </td> -->
+                                            <?php if($_SESSION['id']!=$ul['id']){ ?>
                                             <td>
                                                 <div class="d-flex">
                                                     <a href="<?php echo site_url(); ?>super_admin/User/userManagement/<?php echo $ul['id']; ?>" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fas fa-pencil-alt"></i></a>
                                                     <a href="<?php echo site_url(); ?>super_admin/User/deleteUser/<?php echo $ul['id']; ?>" class="btn btn-danger shadow btn-xs sharp" onclick="return confirm('Delete! Are you sure?')"><i class="fa fa-trash"></i></a>
                                                 </div>												
-                                            </td>		
+                                            </td>
+                                            <?php } ?>		
                                         </tr>                                    
                                     <?php $i++; } ?>
                                 </tbody>

@@ -34,10 +34,12 @@ class Auth extends BaseController
                     {
                         $ses_data = [
                             'id' => $data['id'],
+                            'name' => !empty($data['full_name'])?$data['full_name']:$data['role'],
                             'username' => $data['username'],
                             'is_active' => $data['is_active'],
                             'role' => $data['role'],
-                            'restaurant_id' => $data['restaurant_id'],
+                            'restaurant_id' => 0,
+                            // 'restaurant_id' => $data['restaurant_id'],
                             'isLoggedIn' => TRUE
                         ];
                         $session->set($ses_data);

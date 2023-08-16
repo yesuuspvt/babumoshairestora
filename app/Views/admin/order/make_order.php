@@ -103,14 +103,25 @@
                                             {
                                     ?>
                                                 <div class="col-lg-4 col-md-6">
-                                                    <div class="card d-flex flex-column align-items-center">
-                                                        <div class="product-name"><?= $pl['name'] ?></div>
-                                                        <div class="card-img"> <img style="padding-top: 0px;" src="<?php echo site_url().'writable/uploads/product_image/'.$pl['image'][0]; ?>" alt=""> </div>
+                                                    <div class="card d-flex flex-column align-items-center" style="height: unset;">
+                                                        <div class="product-name"><?php 
+                                                         if(strlen($pl['name'])>14) {
+                                                            echo substr($pl['name'],0,12).'...';
+                                                        }else{
+                                                                echo $pl['name'];
+                                                        } ?></div>
+                                                        <div class="card-img">
+                                                            <?php if(!empty($pl['image']) && count($pl['image'])>0) { ?> 
+                                                            <img style="padding-top: 0px; height:90px; object-fit: unset;" src="<?php echo site_url().'writable/uploads/product_image/'.$pl['image'][0]; ?>" alt="" >
+                                                            <?php }else{   ?> 
+                                                            <img style="padding-top: 0px; height:90px; object-fit: unset;" src="<?php echo site_url().'assets/img/BABUMOSHAI.png'; ?>" alt="" > 
+                                                            <?php }  ?> 
+                                                        </div>
                                                         <div class="card-body">
                                                             <div class="d-flex align-items-center price">
-                                                                <div class="del mr-2"  style="text-decoration: none;"><span class="text-dark"><?= $pl['price'] ?> INR</span></div>
+                                                                <div class="del mr-2"  style="text-decoration: none;font-size: 12px !important;"><span class="text-dark"><?= $pl['price'] ?> INR</span></div>
                                                             </div>
-                                                            <div class="del mr-2"><button style="font-size: 9px !important;" type="button" class="btn btn-primary btn-sm" onclick="addToBill(<?php echo $pl['id']; ?>)">Add to KOT</button></div>
+                                                            <div class="del mr-2"><button style="font-size: 12px !important;" type="button" class="btn btn-primary btn-sm" onclick="addToBill(<?php echo $pl['id']; ?>)">Add</button></div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -130,6 +141,7 @@
                                     <div class="table-responsive">
                                         <form method="post" action="<?php echo site_url(); ?>admin/Order/placeOrder" enctype="multipart/form-data">
                                         <?= csrf_field() ?>
+                                            <div id="cartResult">
                                             <?php
                                             if(!empty($kot_order_product_list))
                                             {
@@ -141,7 +153,7 @@
                                                         <td><strong>Name</strong></td>
                                                         <td><strong>Product Price</strong></td>
                                                         <td><strong>Qunatity</strong></td>
-                                                        <td><strong>Total Price</strong></td>
+                                                        <!-- <td><strong>Total Price</strong></td> -->
                                                         <td><strong>Action</strong></td>
                                                     </tr>
                                                 </thead>
@@ -169,24 +181,24 @@
                                                                 <td><?php echo $pl['name']; ?></td>
                                                                 <td><?php echo $pl['price']; ?></td>
                                                                 <td><input size="2" name="quantity_<?php echo $pl['id']; ?>" value="0" onchange="updateQuantity(this.value, <?php echo $pl['id']; ?>, <?php echo $pl['price']; ?>)" /></td>
-                                                                <td id="itemTotalAmt_<?php echo $pl['id']; ?>">0</td>
+                                                                <!-- <td id="itemTotalAmt_<?php echo $pl['id']; ?>">0</td> -->
                                                                 <td><a class="btn btn-danger shadow btn-xs sharp" onclick="deleteItem(<?php echo $pl['id']; ?>)"><i class="fa fa-trash"></i></a></td>
                                                             </tr>
                                                     <?php
                                                         }
                                                     ?>
-                                                    <tr>
-                                                        <td colspan="3">Total Order Amount</td>
+                                                    <!-- <tr>
+                                                        <td colspan="2">Total Order Amount</td>
                                                         <td id="totalOrderAmt">0</td>
                                                         <td>&nbsp;</td>
-                                                    </tr>
-                                                    <tr>
+                                                    </tr> -->
+                                                    <!-- <tr>
                                                         <td colspan="3">Discount Amount</td>
                                                         <td><input size="10" type="text" name="discount" value="0" /></td>
                                                         <td>&nbsp;</td>
-                                                    </tr>
+                                                    </tr> -->
                                                     <tr>
-                                                        <td colspan="3">Order Type</td>
+                                                        <td colspan="2">Order Type</td>
                                                         <td>
                                                             <select name="order_type" onchange="checkOrderType()">
                                                                 <option value="TABLE">Table</option>
@@ -196,7 +208,7 @@
                                                         <td>&nbsp;</td>
                                                     </tr>
                                                     <tr id="table_no_row">
-                                                        <td colspan="3">Order Table No.</td>
+                                                        <td colspan="2">Order Table No.</td>
                                                         <td><input size="2" type="number" name="order_table_no" onkeyup="checkTableNo(this.value)"  /></td>
                                                         <td>&nbsp;</td>
                                                     </tr>
@@ -224,6 +236,7 @@
                                             <?php } else{
                                                 echo '<p>Cart Item not available</p>';
                                             } ?>
+                                            </div>
                                         </form>
                                     </div>
                                 </div>
@@ -288,7 +301,8 @@
             {
                 $('.content-overlay').css('display','none');
                 //$('#cart_items').html(res.DATA);
-                location.reload();
+                $('#cartResult').html(res.DATA);
+                // location.reload();
             }
             else if(res.ERROR==1){
                 $('.content-overlay').css('display','none');

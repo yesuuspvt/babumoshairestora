@@ -164,9 +164,63 @@ class Order extends BaseController
                         $session->set('orderIds', array($id));
                         $cartItems = 1;
                     }
+                    $kot_order_product_list = $this->cartDataForOrderPage();
+                    if(!empty($kot_order_product_list) && count($kot_order_product_list)>0){
+                    $htmlContent='<table class="table table-responsive-md" style="font-size: 12px;">
+                        <thead>
+                            <tr>
+                                <td><strong>Name</strong></td>
+                                <td><strong>Product Price</strong></td>
+                                <td><strong>Qunatity</strong></td>
+                                <td><strong>Action</strong></td>
+                            </tr>
+                        </thead>
+                        <tbody>';
+                                $i = 1;
+                                foreach($kot_order_product_list as $pl)
+                                {
+                                  
+                                    $htmlContent .='<tr id="product_id_'.$pl['id'].'">
+                                        <td>'.$pl['name'].'</td>
+                                        <td>'.$pl['price'].'</td>
+                                        <td><input size="2" name="quantity_'.$pl['id'].'" value="0" onchange="updateQuantity(this.value, '.$pl['id'].', '.$pl['price'].')" /></td>
+                                        <td><a class="btn btn-danger shadow btn-xs sharp" onclick="deleteItem('.$pl['id'].')"><i class="fa fa-trash"></i></a></td>
+                                    </tr>';
+                                }
+                         
+                                $htmlContent .='<tr>
+                                <td colspan="2">Order Type</td>
+                                <td>
+                                    <select name="order_type" onchange="checkOrderType()">
+                                        <option value="TABLE">Table</option>
+                                        <option value="PERCEL">PERCEL</option>
+                                    </select>
+                                </td>
+                                <td>&nbsp;</td>
+                            </tr>
+                            <tr id="table_no_row">
+                                <td colspan="2">Order Table No.</td>
+                                <td><input size="2" type="number" name="order_table_no" onkeyup="checkTableNo(this.value)"  /></td>
+                                <td>&nbsp;</td>
+                            </tr>
+                            
+                            <tr>
+                                <td colspan="7"><button type="submit" class="btn btn-primary btn-sm" disabled="true" id="generate_kot">Generate KOT</button></td>
+                            </tr>
+                            
+                        </tbody>
+                    </table>';
+                    } else{
+                        $htmlContent='<p>Cart Item not available</p>';
+                    }
+                    
+
+
+
+
                     $res['SUCCESS'] = 1;
                     $res['ERROR'] = 0; 
-                    $res['DATA'] = $cartItems; 
+                    $res['DATA'] = $htmlContent; 
                 }
                 else{
                     $res['SUCCESS'] = 0;
@@ -304,7 +358,7 @@ class Order extends BaseController
             if(!empty($prodctIds))
             {
                 $orderAmount = 0;
-                $discountAmount = $this->request->getPost('discount');
+                $discountAmount = $this->request->getPost('discount')?$this->request->getPost('discount'):0;
                 $totalAmount = 0;
                 foreach($prodctIds as $pid)
                 {
@@ -481,7 +535,7 @@ class Order extends BaseController
                 }
                 else
                 {
-                    $products = $ProductModel->like('name', $product_name)->where(['is_available'=> 1,'restaurant_id'=>$restaurant_id])->whereIn('category_id',$categoryId)->find();
+                    $products = $ProductModel->where(['is_available'=> 1,'restaurant_id'=>$restaurant_id])->whereIn('category_id',$categoryId)->where("name like '%$product_name%' OR id='$product_name'")->find();
                 }
                 
             }
@@ -492,7 +546,7 @@ class Order extends BaseController
                 }
                 else
                 {
-                    $products = $ProductModel->like('name', $product_name)->where(['is_available'=> 1,'restaurant_id'=>$restaurant_id])->find();
+                    $products = $ProductModel->where(['is_available'=> 1,'restaurant_id'=>$restaurant_id])->where("name like '%$product_name%' OR id='$product_name'")->find();
                 }
                 
             }
@@ -522,14 +576,26 @@ class Order extends BaseController
                 foreach($product_list as $pl)
                 {
                     $htmlContent .='<div class="col-lg-4 col-md-6 '; if($i>0){ $htmlContent .='pt-md-0 pt-3'; } $htmlContent .='">
-                        <div class="card d-flex flex-column align-items-center">
-                            <div class="product-name">'.$pl['name'].'</div>
-                            <div class="card-img"> <img src="'.site_url().'writable/uploads/product_image/'.$pl['image'][0].'" alt=""> </div>
+                        <div class="card d-flex flex-column align-items-center" style="height: unset;">
+                            <div class="product-name">';
+                            if(strlen($pl['name'])>14){
+                                $htmlContent .= substr($pl['name'],0,12).'...';
+                            }else{
+                                $htmlContent .=$pl['name'];
+                            }
+                            $htmlContent .='</div>
+                            <div class="card-img">';
+                            if(!empty($pl['image']) && count($pl['image'])>0) {
+                                $htmlContent .='<img style="padding-top: 0px; height:90px; object-fit: unset;" src="'.site_url().'writable/uploads/product_image/'.$pl['image'][0].'" alt="">';
+                             }else{
+                                $htmlContent .='<img style="padding-top: 0px; height:90px; object-fit: unset;" src="'.site_url().'assets/img/BABUMOSHAI.png'.'" alt="" > ';
+                            }
+                            $htmlContent .='</div>
                             <div class="card-body pt-5">
                                 <div class="d-flex align-items-center price">
-                                    <div class="del mr-2"  style="text-decoration: none;"><span class="text-dark">'.$pl['price'].' INR</span></div>
+                                    <div class="del mr-2"  style="text-decoration: none;font-size: 12px !important;"><span class="text-dark">'.$pl['price'].' INR</span></div>
                                 </div>
-                                <div class="del mr-2"><button type="button" class="btn btn-primary btn-sm" onclick="addToBill('.$pl['id'].')">Add to Bill</button></div>
+                                <div class="del mr-2"><button style="font-size: 12px !important;" type="button" class="btn btn-primary btn-sm" onclick="addToBill('.$pl['id'].')">Add</button></div>
                             </div>
                         </div>
                     </div>';
@@ -567,7 +633,9 @@ class Order extends BaseController
         $OrderModel = model(OrderModel::class);
         $OrderitemModel = model(OrderitemModel::class);
         $session = session();
-        $OrderModelLists = $OrderModel->where('is_order_final', 0)->orderBy('id','DESC')->findAll();
+        $OrderModelLists = $OrderModel
+        // ->where('is_order_final', 0)
+        ->orderBy('id','DESC')->findAll();
         $order_data_list = array();
         if(!empty($OrderModelLists))
         {

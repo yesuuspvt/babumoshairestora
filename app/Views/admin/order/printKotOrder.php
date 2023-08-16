@@ -20,7 +20,7 @@
         <td colspan="3"><p style="text-align: center;font-size: 20px;">KOT</p></td>
       </tr>
       <tr>
-        <td colspan="3"><h3 style="text-align: center;font-size: 17px;">URBAN CAFE</h3></td>
+        <td colspan="3"><h3 style="text-align: center;font-size: 17px;">Babumosai Restora</h3></td>
       </tr>
       <tr>
         <td colspan="3" align="center">KOT NO- <?php echo $order['invoice_no']; ?></td>
@@ -81,7 +81,8 @@
       ?>
     </table>
   </div>
-  <p style="text-align:center;"><a href="<?php echo base_url('admin/Order/editKotFinalOrder/')?>/<?php echo (int)$order['invoice_no']; ?>">Edit Order / Generate Bill</a></p>
+  <!-- <p style="text-align:center;"><a href="<?php// echo base_url('admin/Order/editKotFinalOrder/')?>/<?php //echo (int)$order['invoice_no']; ?>">Edit Order / Generate Bill</a></p> -->
+  <p style="text-align:center;"><a href="<?php echo site_url(); ?>orders">Back to Order</a></p>
 <script>
 print();
 </script>

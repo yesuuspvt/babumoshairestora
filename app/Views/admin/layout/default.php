@@ -7,12 +7,12 @@
 	<meta name="keywords" content="" />
 	<meta name="author" content="" />
 	<meta name="robots" content="" />
-	<meta name="description" content="Urban-Cafe" />
-	<meta property="og:title" content="Urban-Cafe" />
-	<meta property="og:description" content="Urban-Cafe" />
-	<meta property="og:image" content="Urban-Cafe" />
+	<meta name="description" content="Babumosai-Restora" />
+	<meta property="og:title" content="Babumosai-Restora" />
+	<meta property="og:description" content="Babumosai-Restora" />
+	<meta property="og:image" content="Babumosai-Restora" />
 	<meta name="format-detection" content="telephone=no">
-    <title>Urban-Cafe </title>
+    <title>Babumosai-Restora </title>
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="images/favicon.png">
     <link href="<?php echo site_url(); ?>assets/admin/vendor/jqvmap/css/jqvmap.min.css" rel="stylesheet">
@@ -48,7 +48,7 @@
             </div>
             <div class="nav-header">
                 <a href="<?php echo site_url(); ?>super-admin-dashboard" class="brand-logo">
-                    <img class="logo-abbr" src="<?php echo site_url(); ?>assets/img/logo.png" alt="">
+                    <img class="logo-abbr" src="<?php echo site_url(); ?>assets/img/BABUMOSHAI.png" alt="">
                 </a>
                 <div class="nav-control">
                     <div class="hamburger">

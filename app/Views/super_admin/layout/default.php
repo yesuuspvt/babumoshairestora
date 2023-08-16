@@ -14,7 +14,7 @@
 	<meta name="format-detection" content="telephone=no">
     <title>Babumoshai Restora </title>
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="<?php echo site_url(); ?>assets/img/logo.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="<?php echo site_url(); ?>assets/img/BABUMOSHAI.png">
     <link href="<?php echo site_url(); ?>assets/admin/vendor/jqvmap/css/jqvmap.min.css" rel="stylesheet">
 	<link rel="stylesheet" href="<?php echo site_url(); ?>assets/admin/vendor/chartist/css/chartist.min.css">
 	<link href="<?php echo site_url(); ?>assets/admin/vendor/bootstrap-select/dist/css/bootstrap-select.min.css" rel="stylesheet">

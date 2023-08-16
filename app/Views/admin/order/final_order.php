@@ -30,8 +30,10 @@
                                                 <th>KOT Order</th>
                                                 <th>Total Amount</th>
                                                 <th>Order Type</th>
+                                                <th>Order Status</th>
                                                 <th>Table No.</th>
                                                 <th>Action</th>
+                                                <th>Order Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -48,9 +50,15 @@
                                                         <td><?php echo $pl['order_id']; ?></td>
                                                         <td><?php echo $pl['total_amount']; ?></td>
                                                         <td><?php echo $pl['order_type']; ?></td>
+                                                        <td><?php echo $pl['is_order_final']==0?'Running':'Complete'; ?></td>
                                                         <td><?php echo $pl['table_no']; ?></td>
-                                                        <td><a href="<?php echo  site_url(); ?>admin/Order/editKotFinalOrder/<?php echo $pl['id']; ?>" target="_blank" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fas fa-pencil-alt"></i></a>
-                                                        <a onClick="deleteKotOrder(<?php echo $pl['id']; ?>)" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fa fa-trash"></i></a></td>
+                                                        <td>
+                                                        <?php if($pl['is_order_final']==0){ ?>
+                                                            <a href="<?php echo  site_url(); ?>admin/Order/editKotFinalOrder/<?php echo $pl['id']; ?>" target="_blank" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fas fa-pencil-alt"></i></a>
+                                                        <a onClick="deleteKotOrder(<?php echo $pl['id']; ?>)" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fa fa-trash"></i></a> 
+                                                        <?php } ?>
+                                                        </td>
+                                                        <td><a target="_blank" href="<?php echo site_url(); ?>admin/Order/printOrder/<?php echo $pl['id']; ?>" class="btn btn-primary btn-sm"><?php echo $pl['is_order_final']==0?'Generate Bill':'Re-print'; ?></a></td>
                                                     </tr>
                                             <?php
                                                 }

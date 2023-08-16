@@ -198,7 +198,6 @@ class Product extends BaseController
                             $newName = $file->getRandomName();
                             if($file->move(WRITEPATH . 'uploads/product_image',$newName))
                             {
-                                echo WRITEPATH;exit;
                                 $productimageModel = model(ProductimageModel::class);
                                 $ProductImageData = [
                                     'product_id' =>  $insertORUpdateRecordId,

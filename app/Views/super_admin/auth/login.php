@@ -8,14 +8,14 @@
 	<meta name="keywords" content="" />
 	<meta name="author" content="" />
 	<meta name="robots" content="" />
-	<meta name="description" content="Urban-Cafe" />
-	<meta property="og:title" content="Urban-Cafe" />
-	<meta property="og:description" content="Urban-Cafe" />
-	<meta property="og:image" content="Urban-Cafe" />
-	<meta name="format-detection" content="Urban-Cafe">
-    <title>Urban-Cafe </title>
+	<meta name="description" content="Babumosai-Restora" />
+	<meta property="og:title" content="Babumosai-Restora" />
+	<meta property="og:description" content="Babumosai-Restora" />
+	<meta property="og:image" content="Babumosai-Restora" />
+	<meta name="format-detection" content="Babumosai-Restora">
+    <title>Babumosai-Restora </title>
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="<?php echo site_url(); ?>assets/img/logo.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="<?php echo site_url(); ?>assets/img/BABUMOSHAI.png">
     <link href="<?php echo site_url(); ?>assets/admin/css/style.css" rel="stylesheet">
 
 </head>

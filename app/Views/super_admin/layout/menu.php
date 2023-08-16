@@ -2,7 +2,7 @@
     <div class="deznav-scroll">
         <ul class="metismenu" id="menu">
             <?php
-                if($_SESSION['role']=='Admin')
+                if($_SESSION['role']=='User')
                 {
             ?>
                 <li>

@@ -24,7 +24,7 @@ class User extends BaseController
     {
         $UserModel = model(UserModel::class);
         $session = session();
-        $data = $UserModel->where(['is_active'=>1])->findAll();
+        $data = $UserModel->where(['is_active'=>1,'id <>'=>1])->findAll();
         $data['user_list'] = $data;
         return view('super_admin/users/user_List', $data);
     }
