@@ -773,6 +773,89 @@ class Order extends BaseController
         // print_r($data); exit;
         return view('admin/order/edit_kot_final_order', $data);
     }
+    public function editGenerateFinalBill($order_id)
+    {
+        $restaurant_id = $_SESSION['restaurant_id'];
+        $ProductModel = model(ProductModel::class);
+        $OrderModel = model(OrderModel::class);
+        $OrderitemModel = model(OrderitemModel::class);
+        $ProductimageModel = model(ProductimageModel::class);
+        $CategoryModel = model(CategoryModel::class);
+        // echo '<br>ljslfjslfj '.$seg1;
+        // exit;
+        $data = [];
+        $ordereditems = [];
+        $data['order'] = $OrderModel->where('id', $order_id)->first();
+        $orderitems = $OrderitemModel->where('order_id', $order_id)->findAll();
+        if(!empty($orderitems))
+        {
+            foreach($orderitems as $orderitem)
+            {
+                $temp = [];
+                $productdetails = $ProductModel->where('id', $orderitem['product_id'])->first();
+                $temp['order_id']=$orderitem['order_id'];
+                $temp['user_id']=$orderitem['user_id'];
+                $temp['product_id']=$orderitem['product_id'];
+                $temp['quantity']=$orderitem['quantity'];
+                $temp['product_amount']=$orderitem['product_amount'];
+                $temp['is_kot_generated']=$orderitem['is_kot_generated'];
+                $temp['product_image']= [];
+                $productimage = $ProductimageModel->where('product_id',$orderitem['product_id'])->findAll();
+                if(!empty($productimage))
+                {
+                    foreach($productimage as $pimg)
+                    {
+                        $tempImg = array();
+                        $tempImg['id'] = $pimg['id'];
+                        $tempImg['image'] = $pimg['image'];
+                        array_push($temp['product_image'], $tempImg);
+                    }
+                }
+                $temp['product']=$productdetails;
+                array_push($ordereditems, $temp);
+            }
+        }
+        $data['order_item'] = $ordereditems;
+        $products = $ProductModel->where(['is_available'=> 1,'restaurant_id'=>$restaurant_id])->findAll();
+        $product_data_list = array();
+        if(!empty($products))
+        {
+            foreach($products as $product)
+            {
+                $temp = array();
+                $temp['id'] = $product['id'];
+                $temp['restaurant_id'] = $product['restaurant_id'];
+                $temp['name'] = $product['name'];
+                $temp['price'] = $product['price'];
+                $temp['is_available'] = $product['is_available'];
+                $temp['image'] = array();
+                $productImages = $ProductimageModel->where(['product_id'=> $product['id']])->findAll();
+                if(!empty($productImages))
+                {
+                    foreach($productImages as $img)
+                    {
+                        array_push($temp['image'], $img['image']);
+                    }
+                }
+                array_push($product_data_list, $temp);
+            }
+        }
+        $product_category_data = $CategoryModel->where('status', 1)->findAll();
+        $productCategories = [];
+        if(!empty($product_category_data))
+        {
+          foreach($product_category_data as $pcd)
+          {
+            $productCategories[$pcd['id']] = $pcd['name'];
+          }  
+        }
+        $data['product_category_list'] = $productCategories;
+        $data['product_list'] = $product_data_list;
+        //end product listiing data
+        // echo '<pre>';
+        // print_r($data); exit;
+        return view('admin/order/edit_generate_final_bill', $data);
+    }
     public function deleteKOTItem()
     {
         $OrderModel = model(OrderModel::class);

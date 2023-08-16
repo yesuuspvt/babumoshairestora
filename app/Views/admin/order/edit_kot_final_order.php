@@ -40,7 +40,7 @@
 
 <?=$this->section("content")?>
     <div class="row">
-        <div class="col-6">
+        <div class="col-8">
             <div class="card" style="height:100%;">
                 <div class="card-header">
                     <h4 class="card-title">KOT Order</h4>
@@ -137,10 +137,10 @@
         </div>
     <!-- </div>
     <div class="row"> -->
-        <div class="col-6">
+        <div class="col-4">
             <div class="card" style="height:100%;">
                 <div class="row card-header">
-                    <div class="col-lg-4">
+                    <div class="col-lg-6">
                         <h4 class="card-title">Products</h4>
                     </div>
                     <div class="col-lg-4">&nbsp;</div>
@@ -190,15 +190,26 @@
                                     foreach($product_list as $pl)
                                     {
                             ?>
-                                        <div class="col-lg-4 col-md-6">
-                                            <div class="card d-flex flex-column align-items-center">
-                                                <div class="product-name"><?= $pl['name'] ?></div>
-                                                <div class="card-img"> <img style="padding-top: 0px;"  src="<?php echo site_url().'writable/uploads/product_image/'.$pl['image'][0]; ?>" alt=""> </div>
+                                        <div class="col-lg-6 col-md-6">
+                                            <div class="card d-flex flex-column align-items-center" style="height: unset;">
+                                            <div class="product-name"><?php 
+                                                         if(strlen($pl['name'])>12) {
+                                                            echo substr($pl['name'],0,10).'...';
+                                                        }else{
+                                                                echo $pl['name'];
+                                                        } ?></div>
+                                                <div class="card-img">
+                                                <?php if(!empty($pl['image']) && count($pl['image'])>0) { ?> 
+                                                    <img style="padding-top: 0px; height:90px; object-fit: unset;" src="<?php echo site_url().'writable/uploads/product_image/'.$pl['image'][0]; ?>" alt="" >
+                                                    <?php }else{   ?> 
+                                                    <img style="padding-top: 0px; height:90px; object-fit: unset;" src="<?php echo site_url().'assets/img/BABUMOSHAI.png'; ?>" alt="" > 
+                                                    <?php }  ?> 
+                                                </div>
                                                 <div class="card-body pt-5">
                                                     <div class="d-flex align-items-center price">
-                                                        <div class="del mr-2"  style="text-decoration: none;"><span class="text-dark"><?= $pl['price'] ?> INR</span></div>
+                                                        <div class="del mr-2"  style="text-decoration: none;font-size: 10px !important;"><span class="text-dark"><?= $pl['price'] ?> INR</span></div>
                                                     </div>
-                                                    <div class="del mr-2 align-items-center"><button  type="button" class="btn btn-primary btn-sm" onclick="addToKOTOrder(<?php echo $pl['id']; ?>, <?php echo $order['id']; ?>)">Add</button></div>
+                                                    <div class="del mr-2 align-items-center"><button  style="font-size: 12px !important;" type="button" class="btn btn-primary btn-sm" onclick="addToKOTOrder(<?php echo $pl['id']; ?>, <?php echo $order['id']; ?>)">Add</button></div>
                                                 </div>
                                             </div>
                                         </div>

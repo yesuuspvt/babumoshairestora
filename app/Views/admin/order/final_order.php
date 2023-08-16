@@ -1,6 +1,12 @@
 <?= $this->extend('admin/layout/default') ?>
 
 <?=$this->section("stylesheets")?>
+<style>
+    table.dataTable thead th {
+        font-size: 14px !important;
+        font-weight: 500 !important;
+    }
+</style>
     <link href="<?php echo site_url(); ?>assets/admin/vendor/datatables/css/jquery.dataTables.min.css" rel="stylesheet">
 <?=$this->endSection()?>
 
@@ -50,7 +56,7 @@
                                                         <td><?php echo $pl['order_id']; ?></td>
                                                         <td><?php echo $pl['total_amount']; ?></td>
                                                         <td><?php echo $pl['order_type']; ?></td>
-                                                        <td><?php echo $pl['is_order_final']==0?'Running':'Complete'; ?></td>
+                                                        <td class="<?php echo $pl['is_order_final']==0? 'text-warning': 'text-success' ?>"><?php echo $pl['is_order_final']==0?'Running':'Complete'; ?></td>
                                                         <td><?php echo $pl['table_no']; ?></td>
                                                         <td>
                                                         <?php if($pl['is_order_final']==0){ ?>
@@ -58,7 +64,14 @@
                                                         <a onClick="deleteKotOrder(<?php echo $pl['id']; ?>)" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fa fa-trash"></i></a> 
                                                         <?php } ?>
                                                         </td>
-                                                        <td><a target="_blank" href="<?php echo site_url(); ?>admin/Order/printOrder/<?php echo $pl['id']; ?>" class="btn btn-primary btn-sm"><?php echo $pl['is_order_final']==0?'Generate Bill':'Re-print'; ?></a></td>
+                                                        <td>
+                                                            <?php if( $pl['is_order_final']==0){ ?>
+                                                            <a href="<?php echo site_url(); ?>admin/Order/editGenerateFinalBill/<?php echo $pl['id']; ?>" class="btn btn-primary btn-sm"><?php echo $pl['is_order_final']==0?'Generate Bill':'Re-print'; ?></a>
+                                                            <?php }else{ ?>
+                                                                <a target="_blank" href="<?php echo site_url(); ?>admin/Order/printOrder/<?php echo $pl['id']; ?>" class="btn btn-primary btn-sm"><?php echo $pl['is_order_final']==0?'Generate Bill':'Re-print'; ?></a>
+
+                                                                <?php } ?>
+                                                        </td>
                                                     </tr>
                                             <?php
                                                 }
