@@ -2,7 +2,7 @@
     <div class="deznav-scroll">
         <ul class="metismenu" id="menu">
             <?php
-                if($_SESSION['role']=='Admin')
+                if($_SESSION['role']=='User')
                 {
             ?>
                 <li>
@@ -11,7 +11,6 @@
                         <span class="nav-text">Dashboard</span>
                     </a>
                 </li>
-                
                 <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
                         <i class="flaticon-381-networking"></i>
                         <span class="nav-text">Order Mangement</span>
@@ -19,12 +18,30 @@
                     <ul aria-expanded="false">
                         <li>
                             <a href="<?php echo site_url(); ?>orders" aria-expanded="false">
-                                <i class="fas fa-home"></i>
+                                <i class="fas fa-cart-plus"></i>
                                 <span class="nav-text">Make Order</span>
                             </a>
                         </li>
+                        <li>
+                            <a href="<?php echo site_url(); ?>admin/Order/KotToFinalOrder" aria-expanded="false">
+                                <i class="fas fa-list"></i>
+                                <span class="nav-text">KOT Orders</span>
+                            </a>
+                        </li>
+                        <!-- <li>
+                            <a href="<?php echo site_url(); ?>quick-orders" aria-expanded="false">
+                                <i class="fas fa-home"></i>
+                                <span class="nav-text">Make Quick Order</span>
+                            </a>
+                        </li> -->
                     </ul>
                 </li>
+                <!-- <li>
+                    <a href="<?php echo site_url(); ?>orders" aria-expanded="false">
+                        <i class="fas fa-home"></i>
+                        <span class="nav-text">Order management</span>
+                    </a>
+                </li> -->
             <?php } 
             elseif($_SESSION['role']=='Super_Admin'){ ?>
                 <li>
@@ -41,16 +58,23 @@
                 </li>
                 <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
                         <i class="flaticon-381-networking"></i>
-                        <span class="nav-text">Manage Product</span>
+                        <span class="nav-text">Manage Item</span>
                     </a>
                     <ul aria-expanded="false">
-                        <li><a href="<?php echo site_url(); ?>super-admin-product-list">Product List</a></li>
+                        <li><a href="<?php echo site_url(); ?>categories-list">Item Category</a></li>
+                        <li><a href="<?php echo site_url(); ?>super-admin-product-list">Item List</a></li>
                     </ul>
                 </li>
                 <li>
                     <a href="<?php echo site_url(); ?>super-admin-user-list" aria-expanded="false">
                         <i class="fas fa-utensils"></i>
-                        <span class="nav-text">Restaurant User</span>
+                        <span class="nav-text">Restaurant User </span>
+                    </a>
+                </li> 
+                 <li>
+                    <a href="<?php echo site_url(); ?>report" aria-expanded="false">
+                        <i class="fas fa-file-alt"></i>
+                        <span class="nav-text">Report </span>
                     </a>
                 </li>
             <?php } ?>

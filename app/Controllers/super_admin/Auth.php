@@ -43,7 +43,11 @@ class Auth extends BaseController
                             'isLoggedIn' => TRUE
                         ];
                         $session->set($ses_data);
-                        return redirect()->to('/super-admin-dashboard');
+                        if($data['role']=='Super_Admin'){
+                            return redirect()->to('/super-admin-dashboard');
+                        }elseif($data['role']=='User'){
+                            return redirect()->to('/user-dashboard');
+                        }
                     }
                     else{
                         $session->setFlashdata('error', 'Your activation status is false');

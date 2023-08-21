@@ -56,15 +56,15 @@
                     </div>
                 </div>
             </div>
-            <?= $this->include('super_admin/layout/header'); ?>
-            <?= $this->include('super_admin/layout/menu') ?>
+            <?= $this->include('admin/layout/header'); ?>
+            <?= $this->include('admin/layout/menu') ?>
             <div class="content-body">
                 <div class="container-fluid">
-                <?= $this->include('super_admin/layout/flashmessage'); ?>
+                <?= $this->include('admin/layout/flashmessage'); ?>
                 <?= $this->renderSection("content"); ?>
                 </div>
             </div>
-            <?= $this->include('super_admin/layout/footer') ?>
+            <?= $this->include('admin/layout/footer') ?>
         </div>
          <!-- Required vendors -->
         <script src="<?php echo site_url(); ?>assets/admin/vendor/global/global.min.js"></script>

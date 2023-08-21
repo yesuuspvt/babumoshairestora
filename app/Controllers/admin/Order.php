@@ -360,11 +360,13 @@ class Order extends BaseController
                 $orderAmount = 0;
                 $discountAmount = $this->request->getPost('discount')?$this->request->getPost('discount'):0;
                 $totalAmount = 0;
+                $gstAmount=0;
                 foreach($prodctIds as $pid)
                 {
                     $qty = $this->request->getPost('quantity_'.$pid);
                     $product = $ProductModel->where('id', $pid)->first();
                     $orderAmount += ($product['price']*$qty);
+                    $gstAmount  +=($product['gst'] *$product['price']*$qty/100);
                 }
                 $totalAmount = ($orderAmount-$discountAmount);
                 $orderData = [];
@@ -373,6 +375,8 @@ class Order extends BaseController
                 $orderData['order_amount'] = $orderAmount;
                 $orderData['discount_amount'] = $discountAmount;
                 $orderData['total_amount'] = $totalAmount;
+                $orderData['gst_amount'] = $gstAmount;
+                $orderData['total_amount_after_gst'] = $totalAmount+$gstAmount;
                 $orderData['table_no'] = $this->request->getPost('order_table_no');
                 $orderData['customer_name'] = ''; //$this->request->getPost('customer_name');
                 $orderData['customer_mobile'] = ''; //$this->request->getPost('customer_phone');
@@ -399,7 +403,10 @@ class Order extends BaseController
                        $orderItem['user_id'] = $_SESSION['id'];
                        $orderItem['product_id'] = $pid;
                        $orderItem['quantity'] = $this->request->getPost('quantity_'.$pid);
+                       $orderItem['product_gst_percentage'] = $product['gst'];
+                       $orderItem['product_gst_amount'] = $product['gst']*$product['price']/100;
                        $orderItem['product_amount'] = $product['price'];
+                       $orderItem['product_amount_after_gst'] = $product['price']+$orderItem['product_gst_amount'];
                        $orderItem['status'] = 1;
                        $orderItem['created_at'] = date('Y-m-d H:i:s');
                        if($OrderitemModel->insert($orderItem))
@@ -923,15 +930,19 @@ class Order extends BaseController
                     $orderItems = $OrderitemModel->where('order_id', $order_id)->findAll();
                     $OrderAmount = 0;
                     $totalOrderAmount = 0;
+                    $gstAmount=0;
                     $discountAmount = $orderDetails['discount_amount'];
                     foreach($orderItems as $order_item)
                     {
                         $OrderAmount += ($order_item['product_amount'] * $order_item['quantity']);
+                        $gstAmount += ($order_item['product_amount'] * $order_item['quantity']*$order_item['product_gst_percentage']/100);
                     }
                     $totalOrderAmount = $OrderAmount - $discountAmount;
                     $orderUpdateData = [];
                     $orderUpdateData['order_amount'] = $OrderAmount;
                     $orderUpdateData['total_amount'] = $totalOrderAmount;
+                    $orderUpdateData['gst_amount'] = $gstAmount;
+                    $orderUpdateData['total_amount_after_gst'] = $totalOrderAmount+$gstAmount;
                     if($order_id > 0 && $OrderModel->update($order_id, $orderUpdateData))
                     {
                         $res['SUCCESS'] = 1;
@@ -968,6 +979,8 @@ class Order extends BaseController
                     $orderUpdateData = [];
                     $orderUpdateData['discount_amount'] = $amount;
                     $orderUpdateData['total_amount'] = $totalOrderAmount;
+                    $gstAmount=$orderUpdateData['gst_amount'];
+                    $orderUpdateData['total_amount_after_gst'] = $totalOrderAmount+$gstAmount;
                     if($order_id > 0 && $OrderModel->update($order_id, $orderUpdateData))
                     {
                         $res['SUCCESS'] = 1;
@@ -1012,6 +1025,9 @@ class Order extends BaseController
                     $orderItemData['product_id'] = $productDetails['id'];
                     $orderItemData['quantity'] = 1;
                     $orderItemData['product_amount'] = $productDetails['price'];
+                    $orderItemData['product_gst_percentage'] = $productDetails['gst'];
+                    $orderItemData['product_gst_amount'] = ($productDetails['price']*$productDetails['gst']/100);
+                    $orderItemData['product_amount_after_gst'] = $productDetails['price']+($productDetails['price']*$productDetails['gst']/100);
                     $orderItemData['is_kot_generated'] = 0;
                     $orderItemData['status'] = 1;
                     $orderItemData['created_at'] = date('Y-m-d');
@@ -1019,15 +1035,20 @@ class Order extends BaseController
                     $orderItems = $OrderitemModel->where('order_id', $order_id)->findAll();
                     $OrderAmount = 0;
                     $totalOrderAmount = 0;
+                    $gstAmount=0;
                     $discountAmount = $orderDetails['discount_amount'];
                     foreach($orderItems as $order_item)
                     {
                         $OrderAmount += ($order_item['product_amount'] * $order_item['quantity']);
+                        $gstAmount  +=($order_item['product_gst_amount'] * $order_item['quantity']);
+                        
                     }
                     $totalOrderAmount = $OrderAmount - $discountAmount;
                     $orderUpdateData = [];
                     $orderUpdateData['order_amount'] = $OrderAmount;
                     $orderUpdateData['total_amount'] = $totalOrderAmount;
+                    $orderUpdateData['gst_amount'] = $gstAmount;
+                    $orderUpdateData['total_amount_after_gst'] = $totalOrderAmount+$gstAmount;
                     if($order_id > 0 && $OrderModel->update($order_id, $orderUpdateData))
                     {
                         $res['SUCCESS'] = 1;

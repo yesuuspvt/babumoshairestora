@@ -59,6 +59,8 @@
                                                 <td>Price</td>
                                                 <td>Qunatity</td>
                                                 <td>Total</td>
+                                                <td>GST</td>
+                                                <td>Total with GST</td>
                                                 <td>Action</td>
                                             </tr>
                                         </thead>
@@ -81,8 +83,10 @@
                                                         ?></td> -->
                                                         <td><?php echo $pl['product']['name']; ?></td>
                                                         <td><?php echo $pl['product']['price']; ?></td>
-                                                        <td><input size="2" name="quantity_<?php echo $pl['id']; ?>" value="<?php echo $pl['quantity']; ?>" onchange="updateOrderQuantity(this.value, <?php echo $pl['product_id']; ?>, <?php echo $pl['order_id']; ?>)" /></td>
+                                                        <td><input size="2" name="quantity_<?php echo $pl['id']; ?>" value="<?php echo $pl['quantity']; ?>" onchange="updateQuantity(this.value,<?php echo $pl['product']['price'];  ?> ,<?php echo $pl['product']['gst'];  ?>,<?php echo $pl['product_id']; ?>, <?php echo $pl['order_id']; ?>)" /></td>
                                                         <td id="itemTotalAmt_<?php echo $pl['product_id']; ?>"><?php echo ($pl['product_amount']*$pl['quantity']); ?></td>
+                                                        <td id="itemGstAmt_<?php echo $pl['product_id']; ?>"><?php echo $pl['product_amount']*$pl['quantity']*$pl['product']['gst']/100; ?></td>
+                                                        <td id="itemGstTotalAmt_<?php echo $pl['product_id']; ?>" class="prodducttotalwithgst"><?php echo ($pl['product_amount']*$pl['quantity'])+$pl['product_amount']*$pl['quantity']*$pl['product']['gst']/100; ?></td>
                                                         <td><a class="btn btn-danger shadow btn-xs sharp" onclick="deleteItem(<?php echo $pl['product_id']; ?>, <?php echo $pl['order_id']; ?>)"><i class="fa fa-trash"></i></a></td>
                                                     </tr>
                                             <?php
@@ -90,19 +94,19 @@
                                             }
                                             ?>
                                             <tr>
-                                                <td colspan="4">Total Order Amount</td>
-                                                <td id="totalOrderAmt"><?php echo $order['order_amount']; ?></td>
+                                                <td colspan="6">Total Order Amount</td>
+                                                <td id="totalOrderAmt"><?php echo ($order['order_amount']+$order['gst_amount']); ?></td>
                                             </tr>
                                             <tr>
-                                                <td colspan="4">Discount Amount</td>
-                                                <td><input size="5" type="text" name="discount" value="<?php echo $order['discount_amount']; ?>" onChange="updateOrdeDiscountAmount(this.value, <?php echo $pl['order_id']; ?>)"/></td>
+                                                <td colspan="6">Discount Amount</td>
+                                                <td><input id="discountAmt" size="5" type="text" name="discount" value="<?php echo $order['discount_amount']; ?>" onChange="updateOrdeDiscountAmount(this.value, <?php echo $pl['order_id']; ?>)"/></td>
                                             </tr>
                                             <tr>
-                                                <td colspan="4">Total Amount</td>
-                                                <td><?php echo $order['total_amount']; ?></td>
+                                                <td colspan="6">Total Amount</td>
+                                                <td id="totalAmt"><?php echo $order['total_amount_after_gst']; ?></td>
                                             </tr>
                                             <tr>
-                                                <td colspan="4">Order Table No.</td>
+                                                <td colspan="6">Order Table No.</td>
                                                 <td><?php echo $order['table_no']; ?></td>
                                             </tr>
                                             <!--<tr>
@@ -287,14 +291,30 @@
             $('.content-overlay').css('display','none');
         }); 
     }
-    function updateQuantity(qty, id, price)
+    function updateQuantity(qty, price,gst,product_id,order_id)
     {
         console.log(qty);
         var totalOrderAmt = Math.floor($('#totalOrderAmt').text());
         var totalItemAmt = (qty*price);
-        totalOrderAmt += totalItemAmt;
-        $('#itemTotalAmt_'+id).html(totalItemAmt);
-        $('#totalOrderAmt').html(totalOrderAmt);
+        var prodductgst= totalItemAmt*gst/100;
+        var prodducttotalwithgst= totalItemAmt+prodductgst
+        $('#itemTotalAmt_'+product_id).html(totalItemAmt);
+        $('#itemGstAmt_'+product_id).html(prodductgst);
+        $('#itemGstTotalAmt_'+product_id).html(prodducttotalwithgst);
+        var total=0;
+        $('.prodducttotalwithgst').each(function(){
+            console.log($(this));
+            console.log($(this)[0].innerHTML);
+            total += parseFloat($(this)[0].innerHTML)
+        });
+
+       
+        $('#totalOrderAmt').html(total);
+        var discountAmt=$('#discountAmt').val();
+        var totalAmt=total-discountAmt;
+        $('#totalAmt').html(totalAmt);
+        
+        updateOrderQuantity(qty,product_id,order_id)
     }
     function deleteItem(product_id,order_id)
     {
@@ -346,7 +366,7 @@
             if(res.SUCCESS == 1)
             {
                 $('.content-overlay').css('display','none');
-                location.reload();
+                // location.reload();
             }
             else if(res.ERROR==1){
                 $('.content-overlay').css('display','none');
@@ -360,6 +380,10 @@
     }
     function updateOrdeDiscountAmount(amount,order_id)
     {
+        var total=$('#totalOrderAmt').html();
+        var totalAmt=total-amount;
+        $('#totalAmt').html(totalAmt);
+
         $('.content-overlay').css('display','block');
         var request = $.ajax({
         url: '<?php echo site_url(); ?>admin/Order/updateKOTOrderDiscountAmount',
@@ -372,7 +396,7 @@
             if(res.SUCCESS == 1)
             {
                 $('.content-overlay').css('display','none');
-                location.reload();
+                // location.reload();
             }
             else if(res.ERROR==1){
                 $('.content-overlay').css('display','none');

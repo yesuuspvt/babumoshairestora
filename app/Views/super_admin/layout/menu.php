@@ -5,38 +5,38 @@
                 if($_SESSION['role']=='User')
                 {
             ?>
-                <li>
-                    <a href="<?php echo site_url(); ?>super-admin-dashboard" aria-expanded="false">
-                        <i class="fas fa-home"></i>
-                        <span class="nav-text">Dashboard</span>
-                    </a>
-                </li>
-                <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
-                        <i class="flaticon-381-networking"></i>
-                        <span class="nav-text">Order Mangement</span>
-                    </a>
-                    <ul aria-expanded="false">
-                        <li>
-                            <a href="<?php echo site_url(); ?>orders" aria-expanded="false">
-                                <i class="fas fa-cart-plus"></i>
-                                <span class="nav-text">Make Order</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="<?php echo site_url(); ?>admin/Order/KotToFinalOrder" aria-expanded="false">
-                                <i class="fas fa-list"></i>
-                                <span class="nav-text">KOT Orders</span>
-                            </a>
-                        </li>
-                        <!-- <li>
+            <li>
+                <a href="<?php echo site_url(); ?>super-admin-dashboard" aria-expanded="false">
+                    <i class="fas fa-home"></i>
+                    <span class="nav-text">Dashboard</span>
+                </a>
+            </li>
+            <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
+                    <i class="flaticon-381-networking"></i>
+                    <span class="nav-text">Order Mangement</span>
+                </a>
+                <ul aria-expanded="false">
+                    <li>
+                        <a href="<?php echo site_url(); ?>orders" aria-expanded="false">
+                            <i class="fas fa-cart-plus"></i>
+                            <span class="nav-text">Make Order</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="<?php echo site_url(); ?>admin/Order/KotToFinalOrder" aria-expanded="false">
+                            <i class="fas fa-list"></i>
+                            <span class="nav-text">KOT Orders</span>
+                        </a>
+                    </li>
+                    <!-- <li>
                             <a href="<?php echo site_url(); ?>quick-orders" aria-expanded="false">
                                 <i class="fas fa-home"></i>
                                 <span class="nav-text">Make Quick Order</span>
                             </a>
                         </li> -->
-                    </ul>
-                </li>
-                <!-- <li>
+                </ul>
+            </li>
+            <!-- <li>
                     <a href="<?php echo site_url(); ?>orders" aria-expanded="false">
                         <i class="fas fa-home"></i>
                         <span class="nav-text">Order management</span>
@@ -44,33 +44,55 @@
                 </li> -->
             <?php } 
             elseif($_SESSION['role']=='Super_Admin'){ ?>
-                <li>
-                    <a href="<?php echo site_url(); ?>super-admin-dashboard" aria-expanded="false">
-                        <i class="fas fa-home"></i>
-                        <span class="nav-text">Dashboard</span>
+            <li>
+                <a href="<?php echo site_url(); ?>super-admin-dashboard" aria-expanded="false">
+                    <i class="fas fa-home"></i>
+                    <span class="nav-text">Dashboard</span>
+                </a>
+            </li>
+            <li>
+                <a href="<?php echo site_url(); ?>super-admin-restaurant-list" aria-expanded="false">
+                    <i class="fas fa-utensils"></i>
+                    <span class="nav-text">Manage Restaurant</span>
+                </a>
+            </li>
+            <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
+                    <i class="flaticon-381-networking"></i>
+                    <span class="nav-text">Manage Item</span>
+                </a>
+                <ul aria-expanded="false">
+                    <li><a href="<?php echo site_url(); ?>categories-list">Item Category</a></li>
+                    <li><a href="<?php echo site_url(); ?>super-admin-product-list">Item List</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="<?php echo site_url(); ?>super-admin-user-list" aria-expanded="false">
+                    <i class="fas fa-utensils"></i>
+                    <span class="nav-text">Restaurant User </span>
+                </a>
+            </li>
+            <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
+                    <i class="flaticon-381-networking"></i>
+                    <span class="nav-text">Report</span>
+                </a>
+                <ul aria-expanded="false">
+                    <li><a href="<?php echo site_url(); ?>report/Daily">Daily Report</a></li>
+                    <li><a href="<?php echo site_url(); ?>report/Monthly">Monthly Reoort</a></li>
+                    <li><a href="<?php echo site_url(); ?>report/Yearly">Yearly Report</a></li>
+
+                    <li><a href="<?php echo site_url(); ?>report/cash">Cash Report</a></li>
+                    <li><a href="<?php echo site_url(); ?>report/Digital">Digital Report</a></li>
+                    <!-- <li><a href="<?php echo site_url(); ?>report/Card">Card Report</a></li> -->
+                    <li><a href="<?php echo site_url(); ?>report/Summery">Resturant Close Summery Report</a></li>
+
+                </ul>
+            </li>
+            <!-- <li>
+                    <a href="<?php echo site_url(); ?>report" aria-expanded="false">
+                        <i class="fas fa-file-alt"></i>
+                        <span class="nav-text">Report </span>
                     </a>
-                </li>
-                <li>
-                    <a href="<?php echo site_url(); ?>super-admin-restaurant-list" aria-expanded="false">
-                        <i class="fas fa-utensils"></i>
-                        <span class="nav-text">Manage Restaurant</span>
-                    </a>
-                </li>
-                <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
-                        <i class="flaticon-381-networking"></i>
-                        <span class="nav-text">Manage Item</span>
-                    </a>
-                    <ul aria-expanded="false">
-                        <li><a href="<?php echo site_url(); ?>categories-list">Item Category</a></li>
-                        <li><a href="<?php echo site_url(); ?>super-admin-product-list">Item List</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="<?php echo site_url(); ?>super-admin-user-list" aria-expanded="false">
-                        <i class="fas fa-utensils"></i>
-                        <span class="nav-text">Restaurant User</span>
-                    </a>
-                </li>
+                </li> -->
             <?php } ?>
         </ul>
     </div>

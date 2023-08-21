@@ -30,6 +30,12 @@ class Home extends BaseController
         $date = date("Y-m-d");
         // echo $data; exit();
         $data['order'] = $OrderModel->where(["DATE_FORMAT(created_at, '%Y-%m-%d')" => $date])->find();
+        $data['cash_payment'] = 10;
+        $data['current_running_order'] = 3;
+        $data['total_order_payment'] = 7;
+        $data['total_digital_payment'] = 5;
+        $data['client_login'] = 9;
+        $data['hourly_avg_order'] = 12;
         return view('super_admin/Home/dashboard',$data);
     }
     public function logout()

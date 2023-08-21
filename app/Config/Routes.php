@@ -42,11 +42,13 @@ $routes->get('/super-admin-restaurant-list', 'super_admin/Restaurant::restaurant
 $routes->get('/super-admin-product-list', 'super_admin/Product::productList');
 $routes->get('/super-admin-user-list', 'super_admin/User::userList');
 $routes->get('/categories-list', 'super_admin/Category::categoryList');
+$routes->add('/report/(:any)', 'super_admin\Report::dailyReport/$1');
 //$routes->post('/super-admin-restaurant-setup', 'super_admin/Restaurant::setupRestaurant');
 //$routes->get('/super-admin-login-submit', 'super_admin/Auth::authenticationCheck');
 //End Super Admin Panel Routes
 
 //Admin Panel routes
+$routes->get('/user-dashboard', 'admin/Home::dashboard');
 $routes->get('/orders', 'admin/Order::makeOrder');
 $routes->get('/quick-orders', 'admin/Order::makeQuickOrder');
 $routes->add('/print-kot-orders/(:any)', 'admin\Order::printKotOrder/$1');

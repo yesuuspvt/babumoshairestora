@@ -17,7 +17,7 @@
                     <li class="nav-item dropdown header-profile">
                         <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown">
                             <div class="header-info">
-                                <span>Hello, <strong><?php echo str_replace('_', ' ', $_SESSION['role']); ?></strong></span>
+                                <span>Hello, <strong><?php echo str_replace('_', ' ', $_SESSION['name']); ?></strong></span>
                             </div>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right">
