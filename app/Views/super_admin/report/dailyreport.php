@@ -241,18 +241,18 @@
                                     <thead>
                                         <tr>
                                             <th>id</th>
-                                            <th>order_id</th> 
-                                            <th>user_id</th> 
-                                            <th>invoice_no</th>
-                                            <th>order_amount</th> 
-                                            <th>discount_type</th>
-                                            <th>discount_amount</th> 
-                                            <th>gst_amount</th> 
-                                            <th>total_amount</th>
-                                            <th>total_amount_after_gst</th>
-                                            <th>payment_type</th>
-                                            <th>order_type</th>
-                                            <th>table_no</th> 
+                                            <th>order id</th> 
+                                            <th>user id</th> 
+                                            <th>invoice no</th>
+                                            <th>order amount</th> 
+                                            <th>discount type</th>
+                                            <th>discount amount</th> 
+                                            <th>gst amount</th> 
+                                            <th>total amount</th>
+                                            <th>total amount after gst</th>
+                                            <th>payment type</th>
+                                            <th>order type</th>
+                                            <th>table no</th> 
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -317,7 +317,7 @@
         // $('#year').val();
     var item_table= $('#item-list').DataTable({
         ajax: {
-        url: '/get_items',
+        url: '<?php echo site_url(); ?>get_items',
         type: 'GET',
         data: function (d) {
             d. report=  $('input[name="report"]:checked').val();

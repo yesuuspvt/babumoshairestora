@@ -28,7 +28,7 @@
       </tr>
       <tr>
         <td></td>
-        <td align="center">NO- <?php echo $order['invoice_no']; ?></td>
+        <td align="center">INVOICE NO- <?php echo "INV".$order['invoice_no']; ?></td>
         <td></td>
       </tr>
       <tr>
@@ -65,6 +65,7 @@
                 <th align="left">Item</th>
                 <th align="center">MRP</th>
                 <th align="center">Qty</th>
+                <th align="center">GST %</th>
                 <th align="right">Total</th>
             </tr>
             <?php
@@ -78,6 +79,7 @@
               <td align="left"><?php echo $odata['product']['name']; ?></td>
               <td align="center"><?php echo number_format($odata['product_amount'],0); ?></td>
               <td align="center"><?php echo $odata['quantity']; ?></td>
+              <td align="center"><?php echo $odata['product_gst_percentage']; ?></td>
               <td align="right"><?php echo ($odata['product_amount']*$odata['quantity']); ?></td>
             </tr>
             <?php
@@ -116,13 +118,17 @@
 
             <td align="right"><?php echo number_format(($total_price-$order['discount_amount']), 2); ?></td>
           </tr>
+            <tr >
+            <td colspan="2"><span style="font-weight: 400;">Net Total with GST</span></td>
+            <td align="right"><?php echo number_format(($order['total_amount_after_gst']), 2); ?></td>
+          </tr>
           </table>
         </td>
         <td></td>
       </tr>
       
       <tr>
-          <td colspan="3" align="left">Order Type : <?php echo $order['order_type']; ?></td>
+          <td colspan="3" align="left">Order Type : <?php echo $order['order_type']; echo $order['order_type']=='TABLE'? '( NO- '.$order['table_no']. ')':''; ?></td>
       </tr>
       <tr>
         <td></td>

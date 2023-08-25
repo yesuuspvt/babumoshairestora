@@ -506,6 +506,7 @@ class Order extends BaseController
                 $temp['user_id']=$orderitem['user_id'];
                 $temp['product_id']=$orderitem['product_id'];
                 $temp['quantity']=$orderitem['quantity'];
+                $temp['product_gst_percentage']=$orderitem['product_gst_percentage'];
                 $temp['product_amount']=$orderitem['product_amount'];
                 $temp['is_kot_generated']=$orderitem['is_kot_generated'];
                 $temp['product']=$productdetails;
