@@ -30,6 +30,9 @@
             font-size: 0.85rem;
             width: 140px;
         }
+        .card-body input[type="radio"] {
+    visibility: visible !important;
+}
     </style>
 <?=$this->endSection()?>
 
@@ -108,6 +111,14 @@
                                             <tr>
                                                 <td colspan="6">Order Table No.</td>
                                                 <td><?php echo $order['table_no']; ?></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Payment Type</td>
+                                                <td colspan="6"><input type="radio" id="cash" name="payment_type" value="cash"   onClick="changePaymentType('cash',<?php echo $order['id'];?>)">
+                                                <label for="cash">Cash</label>
+                                                <input type="radio" id="digi" name="payment_type" value="digi" onClick="changePaymentType('digi',<?php echo $order['id'];?>)">
+                                                <label for="digi">Digital</label></td>
+                                                <!-- <td><input id="discountAmt" size="5" type="text" name="discount" value="<?php echo $order['discount_amount']; ?>" onChange="updateOrdeDiscountAmount(this.value, <?php echo $pl['order_id']; ?>)"/></td> -->
                                             </tr>
                                             <!--<tr>
                                                 <td colspan="5">Customer Name</td>
@@ -460,5 +471,29 @@
       // });
 
     });
+    function changePaymentType(payment_type,order_id){
+        $('.content-overlay').css('display','block');
+        var request = $.ajax({
+        url: '<?php echo site_url(); ?>admin/Order/updatePaymentType',
+        type: "POST",
+        data: { payment_type:payment_type,order_id:order_id, csrf_test_name: $('#csrf').val(),},
+        dataType: "json"
+        });
+        request.done(function(res){
+            console.log(res);
+            if(res.SUCCESS == 1)
+            {
+                $('.content-overlay').css('display','none');
+            }
+            else if(res.ERROR==1){
+                $('.content-overlay').css('display','none');
+                alert('Something went wrong try later');
+            }
+        });
+        request.fail(function(jqXHR, textStatus) {
+            $('.content-overlay').css('display','none');
+            alert('Something went wrong try later');
+        }); 
+    }
 </script>
 <?=$this->endSection()?>

@@ -43,6 +43,8 @@ $routes->get('/super-admin-product-list', 'super_admin/Product::productList');
 $routes->get('/super-admin-user-list', 'super_admin/User::userList');
 $routes->get('/categories-list', 'super_admin/Category::categoryList');
 $routes->add('/report/(:any)', 'super_admin\Report::dailyReport/$1');
+$routes->get('/get_items', 'super_admin/Report::get_items');
+// $routes->get('/item', 'super_admin/Report::index');
 //$routes->post('/super-admin-restaurant-setup', 'super_admin/Restaurant::setupRestaurant');
 //$routes->get('/super-admin-login-submit', 'super_admin/Auth::authenticationCheck');
 //End Super Admin Panel Routes

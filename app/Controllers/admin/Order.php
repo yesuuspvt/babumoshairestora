@@ -717,6 +717,7 @@ class Order extends BaseController
             {
                 $temp = [];
                 $productdetails = $ProductModel->where('id', $orderitem['product_id'])->first();
+                $temp['id']=$orderitem['id'];
                 $temp['order_id']=$orderitem['order_id'];
                 $temp['user_id']=$orderitem['user_id'];
                 $temp['product_id']=$orderitem['product_id'];
@@ -777,7 +778,7 @@ class Order extends BaseController
         $data['product_list'] = $product_data_list;
         //end product listiing data
         // echo '<pre>';
-        // print_r($data); exit;
+        // print_r( $data['order_item']); exit;
         return view('admin/order/edit_kot_final_order', $data);
     }
     public function editGenerateFinalBill($order_id)
@@ -800,6 +801,7 @@ class Order extends BaseController
             {
                 $temp = [];
                 $productdetails = $ProductModel->where('id', $orderitem['product_id'])->first();
+                $temp['id']=$orderitem['id'];
                 $temp['order_id']=$orderitem['order_id'];
                 $temp['user_id']=$orderitem['user_id'];
                 $temp['product_id']=$orderitem['product_id'];
@@ -1075,6 +1077,39 @@ class Order extends BaseController
                 if($OrderitemModel->where('order_id', $order_id)->delete())
                 {
                     if($OrderModel->where('id', $order_id)->delete())
+                    {
+                        $res['SUCCESS'] = 1;
+                        $res['ERROR'] = 0;
+                    }
+                }
+                else{
+                    $res['SUCCESS'] = 0;
+                    $res['ERROR'] = 1;
+                }
+            }
+            else{
+                $res['SUCCESS'] = 0;
+                $res['ERROR'] = 1;
+            }
+            echo json_encode($res); exit;
+        }
+    }
+    public function updatePaymentType()
+    {
+        $OrderModel = model(OrderModel::class);
+        $res = array('SUCCESS'=>0, 'ERROR'=>0,'DATA'=>0);
+        if ($this->request->isAJAX()) {
+            $order_id = service('request')->getPost('order_id');
+            $payment_type = service('request')->getPost('payment_type');
+
+            if($order_id > 0 && $payment_type!='')
+            {
+                $orderDetails = $OrderModel->where('id', $order_id)->first();
+                if(!empty($orderDetails))
+                {
+                    
+                    $orderUpdateData['payment_type'] = $payment_type;
+                    if($order_id > 0 && $OrderModel->update($order_id, $orderUpdateData))
                     {
                         $res['SUCCESS'] = 1;
                         $res['ERROR'] = 0;

@@ -76,12 +76,12 @@
                     <span class="nav-text">Report</span>
                 </a>
                 <ul aria-expanded="false">
-                    <li><a href="<?php echo site_url(); ?>report/Daily">Daily Report</a></li>
-                    <li><a href="<?php echo site_url(); ?>report/Monthly">Monthly Reoort</a></li>
-                    <li><a href="<?php echo site_url(); ?>report/Yearly">Yearly Report</a></li>
+                    <li><a href="<?php echo site_url(); ?>report/report_daywise">Report by Daywise</a></li>
+                    <!-- <li><a href="<?php echo site_url(); ?>report/Monthly">Monthly Reoort</a></li>
+                    <li><a href="<?php echo site_url(); ?>report/Yearly">Yearly Report</a></li> -->
 
-                    <li><a href="<?php echo site_url(); ?>report/cash">Cash Report</a></li>
-                    <li><a href="<?php echo site_url(); ?>report/Digital">Digital Report</a></li>
+                    <li><a href="<?php echo site_url(); ?>report/payment_type">Report by Payment Type</a></li>
+                    <!-- <li><a href="<?php echo site_url(); ?>report/Digital">Digital Report</a></li> -->
                     <!-- <li><a href="<?php echo site_url(); ?>report/Card">Card Report</a></li> -->
                     <li><a href="<?php echo site_url(); ?>report/Summery">Resturant Close Summery Report</a></li>
 

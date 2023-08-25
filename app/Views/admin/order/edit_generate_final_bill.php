@@ -30,6 +30,10 @@
             font-size: 0.85rem;
             width: 140px;
         }
+        
+.card-body input[type="radio"] {
+    visibility: visible !important;
+}
     </style>
 <?=$this->endSection()?>
 
@@ -59,7 +63,8 @@
                                                 <td>Price</td>
                                                 <td>Qunatity</td>
                                                 <td>Total</td>
-                                                <!-- <td>Action</td> -->
+                                                <td>GST</td>
+                                                <td>Total with GST</td>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -81,8 +86,10 @@
                                                         ?></td> -->
                                                         <td><?php echo $pl['product']['name']; ?></td>
                                                         <td><?php echo $pl['product']['price']; ?></td>
-                                                        <td><input readonly size="2" name="quantity_<?php echo $pl['id']; ?>" value="<?php echo $pl['quantity']; ?>" onchange="updateOrderQuantity(this.value, <?php echo $pl['product_id']; ?>, <?php echo $pl['order_id']; ?>)" /></td>
+                                                        <td><input readonly size="2" name="quantity_<?php echo $pl['id']; ?>" value="<?php echo $pl['quantity']; ?>" onchange="updateQuantity(this.value,<?php echo $pl['product']['price'];  ?> ,<?php echo $pl['product']['gst'];  ?>,<?php echo $pl['product_id']; ?>, <?php echo $pl['order_id']; ?>)" /></td>
                                                         <td id="itemTotalAmt_<?php echo $pl['product_id']; ?>"><?php echo ($pl['product_amount']*$pl['quantity']); ?></td>
+                                                        <td id="itemGstAmt_<?php echo $pl['product_id']; ?>"><?php echo $pl['product_amount']*$pl['quantity']*$pl['product']['gst']/100; ?></td>
+                                                        <td id="itemGstTotalAmt_<?php echo $pl['product_id']; ?>" class="prodducttotalwithgst"><?php echo ($pl['product_amount']*$pl['quantity'])+$pl['product_amount']*$pl['quantity']*$pl['product']['gst']/100; ?></td>
                                                         <!-- <td><a class="btn btn-danger shadow btn-xs sharp" onclick="deleteItem(<?php //echo $pl['product_id']; ?>, <?php //echo $pl['order_id']; ?>)"><i class="fa fa-trash"></i></a></td> -->
                                                     </tr>
                                             <?php
@@ -90,20 +97,36 @@
                                             }
                                             ?>
                                             <tr>
-                                                <td colspan="3">Total Order Amount</td>
-                                                <td id="totalOrderAmt"><?php echo $order['order_amount']; ?></td>
+                                                <td colspan="5">Total Order Amount</td>
+                                                <td id="totalOrderAmt"><?php echo ($order['order_amount']+$order['gst_amount']); ?></td>
+                                            </tr>
+                                            <!-- <tr>
+                                                <td>Discount Type</td>
+                                                <td colspan="4"><input type="radio" id="amount" name="discount_type" value="amount"  checked="checked" >
+                                                <label for="amount">Amount</label>
+                                                <input type="radio" id="percen" name="discount_type" value="percen">
+                                                <label for="percen">Percentage</label></td>
+                                                <td><input id="discountAmt" size="5" type="text" name="discount" value="<?php echo $order['discount_amount']; ?>" onChange="updateOrdeDiscountAmount(this.value, <?php echo $pl['order_id']; ?>)"/></td>
+                                            </tr> -->
+                                            <tr>
+                                                <td colspan="5">Discount Amount</td>
+                                                <td><input id="discountAmt" size="5" type="text" name="discount" value="<?php echo $order['discount_amount']; ?>" onChange="updateOrdeDiscountAmount(this.value, <?php echo $pl['order_id']; ?>)"/></td>
                                             </tr>
                                             <tr>
-                                                <td colspan="3">Discount Amount</td>
-                                                <td><input size="5" type="text" name="discount" value="<?php echo $order['discount_amount']; ?>" onChange="updateOrdeDiscountAmount(this.value, <?php echo $pl['order_id']; ?>)"/></td>
+                                                <td colspan="5">Total Amount</td>
+                                                <td id="totalAmt"><?php echo $order['total_amount_after_gst']; ?></td>
                                             </tr>
                                             <tr>
-                                                <td colspan="3">Total Amount</td>
-                                                <td><?php echo $order['total_amount']; ?></td>
-                                            </tr>
-                                            <tr>
-                                                <td colspan="3">Order Table No.</td>
+                                                <td colspan="5">Order Table No.</td>
                                                 <td><?php echo $order['table_no']; ?></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Payment Type</td>
+                                                <td colspan="4"><input type="radio" id="cash" name="payment_type" value="cash"   onClick="changePaymentType('cash',<?php echo $order['id'];?>)">
+                                                <label for="cash">Cash</label>
+                                                <input type="radio" id="digi" name="payment_type" value="digi" onClick="changePaymentType('digi',<?php echo $order['id'];?>)">
+                                                <label for="digi">Digital</label></td>
+                                                <!-- <td><input id="discountAmt" size="5" type="text" name="discount" value="<?php echo $order['discount_amount']; ?>" onChange="updateOrdeDiscountAmount(this.value, <?php echo $pl['order_id']; ?>)"/></td> -->
                                             </tr>
                                             <!--<tr>
                                                 <td colspan="5">Customer Name</td>
@@ -121,9 +144,9 @@
                                                 <td>&nbsp;</td>
                                             </tr> -->
                                             <tr>
-                                                <td colspan="4">
+                                                <td colspan="6">
                                                 <!--    <a href="<?php //echo site_url(); ?>print-kot-orders/<?php //echo $order['id']; ?>" class="btn btn-primary btn-sm">Print KOT Order</a> -->
-                                                    <a target="_blank" href="<?php echo site_url(); ?>admin/Order/printOrder/<?php echo $order['id']; ?>" class="btn btn-primary btn-sm">Generate Bill</a>
+                                                <a target="_blank" href="<?php echo site_url(); ?>admin/Order/printOrder/<?php echo $order['id']; ?>" class="btn btn-primary btn-sm">Generate Bill</a>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -138,7 +161,7 @@
         </div>
     <!-- </div>
     <div class="row"> -->
-       
+        
     </div>
     <input type="hidden" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>" id="csrf"/>
 <?=$this->endSection()?>
@@ -148,6 +171,8 @@
 <?=$this->section("scripts")?>
 <script src="<?php echo site_url(); ?>assets/js/productlist.js"></script>
 <script>
+    
+   
     function addToKOTOrder(product_id, order_id)
     {
         $('.content-overlay').css('display','block');
@@ -203,14 +228,30 @@
             $('.content-overlay').css('display','none');
         }); 
     }
-    function updateQuantity(qty, id, price)
+    function updateQuantity(qty, price,gst,product_id,order_id)
     {
         console.log(qty);
         var totalOrderAmt = Math.floor($('#totalOrderAmt').text());
         var totalItemAmt = (qty*price);
-        totalOrderAmt += totalItemAmt;
-        $('#itemTotalAmt_'+id).html(totalItemAmt);
-        $('#totalOrderAmt').html(totalOrderAmt);
+        var prodductgst= totalItemAmt*gst/100;
+        var prodducttotalwithgst= totalItemAmt+prodductgst
+        $('#itemTotalAmt_'+product_id).html(totalItemAmt);
+        $('#itemGstAmt_'+product_id).html(prodductgst);
+        $('#itemGstTotalAmt_'+product_id).html(prodducttotalwithgst);
+        var total=0;
+        $('.prodducttotalwithgst').each(function(){
+            console.log($(this));
+            console.log($(this)[0].innerHTML);
+            total += parseFloat($(this)[0].innerHTML)
+        });
+
+       
+        $('#totalOrderAmt').html(total);
+        var discountAmt=$('#discountAmt').val();
+        var totalAmt=total-discountAmt;
+        $('#totalAmt').html(totalAmt);
+        
+        updateOrderQuantity(qty,product_id,order_id)
     }
     function deleteItem(product_id,order_id)
     {
@@ -262,7 +303,7 @@
             if(res.SUCCESS == 1)
             {
                 $('.content-overlay').css('display','none');
-                location.reload();
+                // location.reload();
             }
             else if(res.ERROR==1){
                 $('.content-overlay').css('display','none');
@@ -276,6 +317,9 @@
     }
     function updateOrdeDiscountAmount(amount,order_id)
     {
+        var total=$('#totalOrderAmt').html();
+        var totalAmt=total-amount;
+        $('#totalAmt').html(totalAmt);
         $('.content-overlay').css('display','block');
         var request = $.ajax({
         url: '<?php echo site_url(); ?>admin/Order/updateKOTOrderDiscountAmount',
@@ -288,7 +332,7 @@
             if(res.SUCCESS == 1)
             {
                 $('.content-overlay').css('display','none');
-                location.reload();
+                // location.reload();
             }
             else if(res.ERROR==1){
                 $('.content-overlay').css('display','none');
@@ -352,5 +396,29 @@
       // });
 
     });
+    function changePaymentType(payment_type,order_id){
+        $('.content-overlay').css('display','block');
+        var request = $.ajax({
+        url: '<?php echo site_url(); ?>admin/Order/updatePaymentType',
+        type: "POST",
+        data: { payment_type:payment_type,order_id:order_id, csrf_test_name: $('#csrf').val(),},
+        dataType: "json"
+        });
+        request.done(function(res){
+            console.log(res);
+            if(res.SUCCESS == 1)
+            {
+                $('.content-overlay').css('display','none');
+            }
+            else if(res.ERROR==1){
+                $('.content-overlay').css('display','none');
+                alert('Something went wrong try later');
+            }
+        });
+        request.fail(function(jqXHR, textStatus) {
+            $('.content-overlay').css('display','none');
+            alert('Something went wrong try later');
+        }); 
+    }
 </script>
 <?=$this->endSection()?>
